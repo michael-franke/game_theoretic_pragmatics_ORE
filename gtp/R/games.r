@@ -27,7 +27,7 @@
 #'
 #' @param states character vector of state names
 #' @param messages character vector of messages names
-#' @param semantics a States X Messages matrix of conventional meanings
+#' @param semantics a Messages X States matrix of conventional meanings
 #' @param utils States X States matrix of utilities
 #' @param prior vector of prior probabilities of states
 #' @param message_preferences vector of factors of relative message preference
