@@ -23,12 +23,24 @@
 #### apply_RD(scalar_implicature_game)
 ##################################################
 
-source('games.r')
-
 ##################################################
 ## helper functions
 ##################################################
 
+
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 get_EU_sender = function(rec, game) {
   sEU = matrix(0, nrow = length(game$states), ncol = length(game$messages),
                dimnames = list(game$states, game$messages))
@@ -40,6 +52,19 @@ get_EU_sender = function(rec, game) {
   return(sEU)
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 get_receiver_belief = function(sen, game){
   mu = matrix(0, ncol = length(game$states), nrow = length(game$messages),
               dimnames = list(game$messages, game$states))
@@ -54,6 +79,19 @@ get_receiver_belief = function(sen, game){
   return(mu)
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 get_EU_receiver = function(sen, game){
   rEU = matrix(0, ncol = length(game$states), nrow = length(game$messages),
                dimnames = list(game$messages, game$states))
@@ -66,6 +104,19 @@ get_EU_receiver = function(sen, game){
   return(rEU)
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 best_response = function(EU) {
   BR = EU
   for (i in 1:(dim(EU)[1])) {
@@ -74,11 +125,25 @@ best_response = function(EU) {
   return(prop.table(BR,1))
 }
 
+#' @export
 quantal_response = function(EU, lambda = 1) {
   QR = prop.table(exp(lambda*EU),1)
   return(QR)
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 get_EU_sender_RSA = function(rec, game) {
   sEU = matrix(0, nrow = length(game$states), ncol = length(game$messages),
                dimnames = list(game$states, game$messages))
@@ -94,6 +159,19 @@ get_EU_sender_RSA = function(rec, game) {
 ## main functions
 ##################################################
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 apply_RD = function(game, iterations = 100, initialPertubation = 0, add = 0.01) {
   # start with literal language use
   sen = prop.table(t(game$semantics),1) 
@@ -117,6 +195,19 @@ apply_RD = function(game, iterations = 100, initialPertubation = 0, add = 0.01) 
   return(list(sender = sen, receiver = rec))
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 apply_IBR = function(game, depth = 10) {
   # start with literal language use
   sen = prop.table(t(game$semantics),1) 
@@ -132,6 +223,19 @@ apply_IBR = function(game, depth = 10) {
   return(list(sen = sen, rec = rec))
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 apply_IQR = function(game, depth = 10, lambda = 5) {
   # start with literal language use
   sen = prop.table(t(game$semantics),1) 
@@ -147,6 +251,19 @@ apply_IQR = function(game, depth = 10, lambda = 5) {
   return(list(sen = sen, rec = rec))
 }
 
+#' Calculate expected utility for sender
+#'
+#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#'
+#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param game the game that is being played
+#'
+#' @return A State X Message matrix of expected utilities for the sender.
+#'
+#' @examples
+#' get_EU_sender(rec, scalar_implicature_game)
+#'
+#' @export
 apply_RSA = function(game, depth = 10, lambda = 5) {
   # start with literal language use
   rec = prop.table(game$semantics,1)
