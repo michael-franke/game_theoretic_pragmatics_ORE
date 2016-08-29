@@ -170,7 +170,7 @@ get_similarity = function(ns, weber_fraction = 0.2, epsilon = 0) {
   for (n in states) {
     for (m in states) {
       # prob that scene $m$ is perceived when scene $n$ is actual
-      scene_confusion_probs[n+1, m+1] = number_confusion_probs[n+1,m+1] * number_confusion_probs[10-n+1,10-m+1]
+      scene_confusion_probs[n+1, m+1] = number_confusion_probs[n+1,m+1] * number_confusion_probs[ns-n+1,ns-m+1]
     }
   }
   scene_confusion_probs = prop.table(scene_confusion_probs,1)
