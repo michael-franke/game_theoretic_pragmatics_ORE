@@ -42,27 +42,21 @@
 #'
 #' @export
 get_EU_sender = function(rec, game) {
-  sEU = matrix(0, nrow = length(game$states), ncol = length(game$messages),
-               dimnames = list(game$states, game$messages))
-  for (t in 1:length(game$states)) {
-    for (m in 1:length(game$messages)) {
-      sEU[t,m] = sum(sapply(1:length(game$states), function(a) rec[m,a] * game$utils[t,a]) ) * game$message_preferences[m]
-    }
-  }
+  sEU = t(apply(game$utils %*% t(rec), 1, function(x) x * game$message_preferences))
   return(sEU)
 }
 
-#' Calculate expected utility for sender
+#' Receiver's posterior beliefs
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates the posterior beliefs about the actual state of the receiver, given a game and the sender's behavioral strategy.
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param sen sender strategy: State X Message row-stochastic matrix
 #' @param game the game that is being played
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A Message X States row-stochastic matrix of posterior beliefs for the receiver.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' get_receiver_belief(sen, scalar_implicature_game)
 #'
 #' @export
 get_receiver_belief = function(sen, game){
@@ -79,42 +73,35 @@ get_receiver_belief = function(sen, game){
   return(mu)
 }
 
-#' Calculate expected utility for sender
+#' Calculate expected utility for receiver
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates the expected utility of a receiver, given a game and the sender's behavioral strategy.
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
+#' @param sen sender strategy: State X Message row-stochastic matrix
 #' @param game the game that is being played
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A Message X State matrix of expected utilities for the receiver.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' get_EU_receiver(sen, scalar_implicature_game)
 #'
 #' @export
 get_EU_receiver = function(sen, game){
-  rEU = matrix(0, ncol = length(game$states), nrow = length(game$messages),
-               dimnames = list(game$messages, game$states))
   mu = get_receiver_belief(sen, game)
-  for (m in 1:length(game$messages)) {
-    for (a in 1:length(game$states)) {
-      rEU[m,a] = sum(sapply(1:length(game$states), function(t) mu[m,t] * game$utils[t,a]) )
-    }
-  }
+  rEU = mu %*% utils
   return(rEU)
 }
 
-#' Calculate expected utility for sender
+#' Calculate best response for sender
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates the best response for a sender, given a game and the receiver's behavioral strategy.
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
-#' @param game the game that is being played
+#' @param EU expected utility matrix
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A sender strategy matrix (states times messages) with only best responses in the support.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' best_response(get_EU_sender(rec, scalar_implicature_game))
 #'
 #' @export
 best_response = function(EU) {
@@ -131,7 +118,7 @@ quantal_response = function(EU, lambda = 1) {
   return(QR)
 }
 
-#' Calculate expected utility for sender
+#' Calculate expected utility for sender in RSA model
 #'
 #' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
 #'
@@ -159,17 +146,19 @@ get_EU_sender_RSA = function(rec, game) {
 ## main functions
 ##################################################
 
-#' Calculate expected utility for sender
+#' Discrete time replicator dynamics in behavioral strategies
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates discrete time replicator dynamics in behavioral strategies for a signaling game
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
-#' @param game the game that is being played
+#' @param game the signaling game that is played
+#' @param iterations how many discrete-time update steps
+#' @param initialPerturbation how much to wiggle the initial (semantic-play) state
+#' @param add background fittness; influences speed of change;
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A list with the final sender and receiver strategies.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' apply_RD(scalar_scalar_implicature_game)
 #'
 #' @export
 apply_RD = function(game, iterations = 100, initialPertubation = 0, add = 0.01) {
@@ -195,17 +184,17 @@ apply_RD = function(game, iterations = 100, initialPertubation = 0, add = 0.01) 
   return(list(sender = sen, receiver = rec))
 }
 
-#' Calculate expected utility for sender
+#' Iterated Best Response solution
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates the IBR solution for the signaling game
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
-#' @param game the game that is being played
+#' @param game the signaling game that is played
+#' @param depth depth of recursive reasoning
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A list with the final sender and receiver strategies.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' apply_IBR(scalar_scalar_implicature_game)
 #'
 #' @export
 apply_IBR = function(game, depth = 10) {
@@ -223,17 +212,18 @@ apply_IBR = function(game, depth = 10) {
   return(list(sen = sen, rec = rec))
 }
 
-#' Calculate expected utility for sender
+#' Iterated Quantal Response solution
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates the IQR solution for the signaling game
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
-#' @param game the game that is being played
+#' @param game the signaling game that is played
+#' @param depth depth of recursive reasoning
+#' @param lambda "rationality"/soft-max parameter
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A list with the final sender and receiver strategies.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' apply_IQR(scalar_scalar_implicature_game)
 #'
 #' @export
 apply_IQR = function(game, depth = 10, lambda = 5) {
@@ -251,17 +241,19 @@ apply_IQR = function(game, depth = 10, lambda = 5) {
   return(list(sen = sen, rec = rec))
 }
 
-#' Calculate expected utility for sender
+
+#' Rational Speech Act solution
 #'
-#' Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+#' Calculates the RSA solution for the signaling game
 #'
-#' @param rec receiver strategy: Message X State row-stochastic matrix
-#' @param game the game that is being played
+#' @param game the signaling game that is played
+#' @param depth depth of recursive reasoning
+#' @param lambda "rationality"/soft-max parameter
 #'
-#' @return A State X Message matrix of expected utilities for the sender.
+#' @return A list with the final sender and receiver strategies.
 #'
 #' @examples
-#' get_EU_sender(rec, scalar_implicature_game)
+#' apply_RSA(scalar_scalar_implicature_game)
 #'
 #' @export
 apply_RSA = function(game, depth = 10, lambda = 5) {
