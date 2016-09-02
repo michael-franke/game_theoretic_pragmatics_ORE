@@ -2,23 +2,21 @@
 % Please edit documentation in R/solution_concepts.r
 \name{best_response}
 \alias{best_response}
-\title{Calculate expected utility for sender}
+\title{Calculate best response for sender}
 \usage{
 best_response(EU)
 }
 \arguments{
-\item{rec}{receiver strategy: Message X State row-stochastic matrix}
-
-\item{game}{the game that is being played}
+\item{EU}{expected utility matrix}
 }
 \value{
-A State X Message matrix of expected utilities for the sender.
+A sender strategy matrix (states times messages) with only best responses in the support.
 }
 \description{
-Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+Calculates the best response for a sender, given a game and the receiver's behavioral strategy.
 }
 \examples{
-get_EU_sender(rec, scalar_implicature_game)
+best_response(get_EU_sender(rec, scalar_implicature_game))
 
 }
 

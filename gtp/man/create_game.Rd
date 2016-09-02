@@ -12,7 +12,7 @@ create_game(states, messages, semantics = NULL, utils = NULL,
 
 \item{messages}{character vector of messages names}
 
-\item{semantics}{a States X Messages matrix of conventional meanings}
+\item{semantics}{a Messages X States matrix of conventional meanings}
 
 \item{utils}{States X States matrix of utilities}
 

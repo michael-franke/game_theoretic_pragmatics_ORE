@@ -1,6 +1,6 @@
 Package: gtp
-Version: 0.1
-Date: 4/18/2016
+Version: 0.2
+Date: 2/09/2016
 Title: game theoretic pragmatics
 Description: Some tools to represent simple language games and compute
     predictions of popular reasoning and evolutionary models.

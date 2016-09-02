@@ -2,23 +2,23 @@
 % Please edit documentation in R/solution_concepts.r
 \name{get_receiver_belief}
 \alias{get_receiver_belief}
-\title{Calculate expected utility for sender}
+\title{Receiver's posterior beliefs}
 \usage{
 get_receiver_belief(sen, game)
 }
 \arguments{
-\item{game}{the game that is being played}
+\item{sen}{sender strategy: State X Message row-stochastic matrix}
 
-\item{rec}{receiver strategy: Message X State row-stochastic matrix}
+\item{game}{the game that is being played}
 }
 \value{
-A State X Message matrix of expected utilities for the sender.
+A Message X States row-stochastic matrix of posterior beliefs for the receiver.
 }
 \description{
-Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+Calculates the posterior beliefs about the actual state of the receiver, given a game and the sender's behavioral strategy.
 }
 \examples{
-get_EU_sender(rec, scalar_implicature_game)
+get_receiver_belief(sen, scalar_implicature_game)
 
 }
 

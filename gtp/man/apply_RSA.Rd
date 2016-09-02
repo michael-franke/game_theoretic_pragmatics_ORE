@@ -2,23 +2,25 @@
 % Please edit documentation in R/solution_concepts.r
 \name{apply_RSA}
 \alias{apply_RSA}
-\title{Calculate expected utility for sender}
+\title{Rational Speech Act solution}
 \usage{
 apply_RSA(game, depth = 10, lambda = 5)
 }
 \arguments{
-\item{game}{the game that is being played}
+\item{game}{the signaling game that is played}
 
-\item{rec}{receiver strategy: Message X State row-stochastic matrix}
+\item{depth}{depth of recursive reasoning}
+
+\item{lambda}{"rationality"/soft-max parameter}
 }
 \value{
-A State X Message matrix of expected utilities for the sender.
+A list with the final sender and receiver strategies.
 }
 \description{
-Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+Calculates the RSA solution for the signaling game
 }
 \examples{
-get_EU_sender(rec, scalar_implicature_game)
+apply_RSA(scalar_scalar_implicature_game)
 
 }
 

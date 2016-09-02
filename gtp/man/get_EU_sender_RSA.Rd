@@ -2,7 +2,7 @@
 % Please edit documentation in R/solution_concepts.r
 \name{get_EU_sender_RSA}
 \alias{get_EU_sender_RSA}
-\title{Calculate expected utility for sender}
+\title{Calculate expected utility for sender in RSA model}
 \usage{
 get_EU_sender_RSA(rec, game)
 }

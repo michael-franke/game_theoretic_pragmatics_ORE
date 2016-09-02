@@ -2,23 +2,27 @@
 % Please edit documentation in R/solution_concepts.r
 \name{apply_RD}
 \alias{apply_RD}
-\title{Calculate expected utility for sender}
+\title{Discrete time replicator dynamics in behavioral strategies}
 \usage{
 apply_RD(game, iterations = 100, initialPertubation = 0, add = 0.01)
 }
 \arguments{
-\item{game}{the game that is being played}
+\item{game}{the signaling game that is played}
 
-\item{rec}{receiver strategy: Message X State row-stochastic matrix}
+\item{iterations}{how many discrete-time update steps}
+
+\item{add}{background fittness; influences speed of change;}
+
+\item{initialPerturbation}{how much to wiggle the initial (semantic-play) state}
 }
 \value{
-A State X Message matrix of expected utilities for the sender.
+A list with the final sender and receiver strategies.
 }
 \description{
-Calculates the expected utility of a sender, given a game and the receiver's behavioral strategy.
+Calculates discrete time replicator dynamics in behavioral strategies for a signaling game
 }
 \examples{
-get_EU_sender(rec, scalar_implicature_game)
+apply_RD(scalar_scalar_implicature_game)
 
 }
 
