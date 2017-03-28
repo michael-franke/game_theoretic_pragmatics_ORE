@@ -88,7 +88,7 @@ get_receiver_belief = function(sen, game){
 #' @export
 get_EU_receiver = function(sen, game){
   mu = get_receiver_belief(sen, game)
-  rEU = mu %*% utils
+  rEU = mu %*% game$utils
   return(rEU)
 }
 
