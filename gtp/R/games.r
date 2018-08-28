@@ -17,6 +17,7 @@
 #### I_implicature_game
 #### M_implicature_game
 #### free_choice_game
+#### extended_free_choice_game
 #### numerosity_game
 ###### latter game requires function get_similarity
 ###################################################
