@@ -142,11 +142,15 @@ semantics[4,c(1,2,4,5,6,7)] <- 1
 semantics[5,c(1,3,4,5,6,7)] <- 1
 semantics[6,c(2,3,4,5,6,7)] <- 1
 semantics[7,c(1,2,3,4,5,6,7)] <- 1
+prior = c(1,1,1,0.8,0.8,0.8,0.6)
+prior = prior / sum(prior)
 #' @export
 extended_free_choice_game = create_game(
   states = c('a', 'b', 'c', 'ab', 'ac', 'bc', 'abc'),
   messages = c('may A','may B', 'may C', 'may (A or B)', 'may (A or C)', 'may (B or C)', 'may (A or B or C)'),
-  semantics = semantics
+  semantics = semantics,
+  prior = prior,
+  message_preferences = c(1, 1, 1, 0.8, 0.8, 0.8, 0.6)
 )
 
 ######################################
