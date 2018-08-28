@@ -133,6 +133,22 @@ free_choice_game = create_game(
   semantics = semantics
 )
 
+# extended free-choice game
+semantics <- matrix(0,nrow = 7,ncol = 7)
+semantics[1,c(1,4,5,7)] <- 1
+semantics[2,c(2,4,6,7)] <- 1
+semantics[3,c(3,5,6,7)] <- 1
+semantics[4,c(1,2,4,5,6,7)] <- 1
+semantics[5,c(1,3,4,5,6,7)] <- 1
+semantics[6,c(2,3,4,5,6,7)] <- 1
+semantics[7,c(1,2,3,4,5,6,7)] <- 1
+#' @export
+extended_free_choice_game = create_game(
+  states = c('a', 'b', 'c', 'ab', 'ac', 'bc', 'abc'),
+  messages = c('may A','may B', 'may C', 'may (A or B)', 'may (A or C)', 'may (B or C)', 'may (A or B or C)'),
+  semantics = semantics
+)
+
 ######################################
 ### define numerosity game
 ######################################
